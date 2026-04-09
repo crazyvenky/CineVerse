@@ -63,7 +63,7 @@ Siva is a hardcore Telugu cinema buff who watches 4–5 movies a week across Tel
 ---
 
 ### Persona 2 — Super User
-# [Pulagam Chinnarayana](https://wikipedia.org/wiki/Pulagam_Chinnarayana)
+## [Pulagam Chinnarayana](https://wikipedia.org/wiki/Pulagam_Chinnarayana)
 
 
 
@@ -161,12 +161,9 @@ Siva is a hardcore Telugu cinema buff who watches 4–5 movies a week across Tel
 
 ---
 
-## 🗃️ ER Diagram (Mermaid)
+# ER Diagram (Mermaid)[Visit](https://mermaid.ai/d/fd3e3161-bcee-4170-ba73-fb7a3884218c)
 
 > Paste the block below at https://mermaid.live to render
-
-<div style="display: flex; gap: 2%;">
-<div style="flex: 1;">
 
 ```mermaid
 erDiagram
@@ -274,13 +271,6 @@ erDiagram
         datetime created_at
         datetime updated_at
     }
-```
-
-</div>
-<div style="flex: 1;">
-
-```mermaid
-
 
     LIKE {
         int id PK
@@ -394,7 +384,7 @@ erDiagram
 
 ---
 
-## 📁 Django App Estimation Structure
+## 📁 Django App Estimation Structure 
 
 ```
 cineverse/                  ← Django project root
