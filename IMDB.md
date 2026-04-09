@@ -168,213 +168,140 @@ Siva is a hardcore Telugu cinema buff who watches 4–5 movies a week across Tel
 ```mermaid
 erDiagram
 
-    USER {
-        int id PK
-        string username
-        string email
-        string password_hash
-        string full_name
-        string bio
-        string avatar_url
-        string location
-        datetime date_joined
-        bool is_staff
-    }
+USER {
+    int id PK
+    string username
+    string email
+    string full_name
+    string bio
+    string avatar_url
+    string location
+    datetime date_joined
+}
+TITLE {
+    int id PK
+    string primary_title
+    string title_type
+    int start_year
+    int end_year
+    int runtime_minutes
+    text plot
+    string poster_url
+    decimal budget
+    string language
+    float avg_rating
+    int num_votes
+}
+GENRE {
+    int id PK
+    string name
+}
+PERSON {
+    int id PK
+    string name
+    int birth_year
+    int death_year
+    text bio
+    string photo_url
+}
+PROFESSION {
+    int id PK
+    string name
+}
+PRINCIPAL_CAST {
+    int id PK
+    int title_id FK
+    int person_id FK
+    string role_category
+    string character_name
+    int ordering
+}
+EPISODE {
+    int id PK
+    int series_id FK
+    int episode_title_id FK
+    int season_number
+    int episode_number
+}
+USER_RATING {
+    int id PK
+    int user_id FK
+    int title_id FK
+    int score
+    datetime created_at
+}
+REVIEW {
+    int id PK
+    int user_id FK
+    int title_id FK
+    string headline
+    text body
+    int parent_id FK
+    bool is_spoiler
+    datetime created_at
+}
+LIKE {
+    int id PK
+    int user_id FK
+    int content_type_id FK
+    int object_id
+    datetime created_at
+}
+WATCHLIST {
+    int id PK
+    int user_id FK
+    int title_id FK
+    string status
+    datetime added_at
+}
+USER_FOLLOW {
+    int id PK
+    int follower_id FK
+    int following_id FK
+    datetime created_at
+}
+PERSON_FOLLOW {
+    int id PK
+    int user_id FK
+    int person_id FK
+    datetime created_at
+}
+AWARD {
+    int id PK
+    int title_id FK
+    int person_id FK
+    string award_name
+    string organization
+    int year
+    bool is_winner
+}
+KEYWORD {
+    int id PK
+    string name
+}
 
-    TITLE {
-        int id PK
-        string primary_title
-        string original_title
-        string title_type
-        int start_year
-        int end_year
-        int runtime_minutes
-        text plot
-        string poster_url
-        decimal budget
-        decimal box_office_gross
-        string country
-        string language
-        bool is_adult
-        float avg_rating
-        int num_votes
-    }
+USER ||--o{ USER_RATING : "gives"
+USER ||--o{ REVIEW : "writes"
+USER ||--o{ LIKE : "gives"
+USER ||--o{ WATCHLIST : "maintains"
+USER ||--o{ USER_FOLLOW : "follower"
+USER ||--o{ PERSON_FOLLOW : "follows celebrity"
 
-    GENRE {
-        int id PK
-        string name
-    }
+TITLE ||--o{ USER_RATING : "receives"
+TITLE ||--o{ REVIEW : "has"
+TITLE ||--o{ WATCHLIST : "in"
+TITLE }o--o{ GENRE : "categorized by"
+TITLE ||--o{ PRINCIPAL_CAST : "features"
+TITLE ||--o{ EPISODE : "series of"
+TITLE ||--o{ AWARD : "nominated"
+TITLE }o--o{ KEYWORD : "tagged"
 
-    TITLE_GENRE {
-        int title_id FK
-        int genre_id FK
-    }
+PERSON ||--o{ PRINCIPAL_CAST : "appears in"
+PERSON }o--o{ PROFESSION : "has"
+PERSON ||--o{ AWARD : "nominated"
+PERSON ||--o{ PERSON_FOLLOW : "followed by"
 
-    PERSON {
-        int id PK
-        string name
-        int birth_year
-        int death_year
-        text bio
-        string photo_url
-        string birth_place
-    }
-
-    PROFESSION {
-        int id PK
-        string name
-    }
-
-    PERSON_PROFESSION {
-        int person_id FK
-        int profession_id FK
-    }
-
-    PRINCIPAL_CAST {
-        int id PK
-        int title_id FK
-        int person_id FK
-        string role_category
-        string character_name
-        int ordering
-    }
-
-    EPISODE {
-        int id PK
-        int series_id FK
-        int episode_title_id FK
-        int season_number
-        int episode_number
-    }
-
-    USER_RATING {
-        int id PK
-        int user_id FK
-        int title_id FK
-        int score
-        datetime created_at
-        datetime updated_at
-    }
-
-    REVIEW {
-        int id PK
-        int user_id FK
-        int title_id FK
-        string headline
-        text body
-        int lft
-        int rght
-        int tree_id
-        int level
-        int parent_id FK
-        bool is_spoiler
-        datetime created_at
-        datetime updated_at
-    }
-
-    LIKE {
-        int id PK
-        int user_id FK
-        int content_type_id FK
-        int object_id
-        datetime created_at
-    }
-
-    WATCHLIST {
-        int id PK
-        int user_id FK
-        int title_id FK
-        string status
-        int personal_rating
-        datetime added_at
-        datetime updated_at
-    }
-
-    USER_FOLLOW {
-        int id PK
-        int follower_id FK
-        int following_id FK
-        datetime created_at
-    }
-
-    PERSON_FOLLOW {
-        int id PK
-        int user_id FK
-        int person_id FK
-        datetime created_at
-    }
-
-    AWARD {
-        int id PK
-        int title_id FK
-        int person_id FK
-        string award_name
-        string organization
-        string category
-        int year
-        bool is_winner
-    }
-
-    KEYWORD {
-        int id PK
-        string name
-    }
-
-    TITLE_KEYWORD {
-        int title_id FK
-        int keyword_id FK
-    }
-
-    PHOTO {
-        int id PK
-        int title_id FK
-        int person_id FK
-        string url
-        string caption
-        string photo_type
-        datetime uploaded_at
-    }
-
-    CONTENT_TYPE {
-        int id PK
-        string app_label
-        string model
-    }
-
-    USER ||--o{ USER_RATING : "gives"
-    USER ||--o{ REVIEW : "writes"
-    USER ||--o{ LIKE : "gives"
-    USER ||--o{ WATCHLIST : "maintains"
-    USER ||--o{ USER_FOLLOW : "follows as follower"
-    USER ||--o{ USER_FOLLOW : "followed as following"
-    USER ||--o{ PERSON_FOLLOW : "follows celebrity"
-
-    TITLE ||--o{ USER_RATING : "receives"
-    TITLE ||--o{ REVIEW : "has"
-    TITLE ||--o{ WATCHLIST : "in"
-    TITLE ||--o{ TITLE_GENRE : "categorized by"
-    TITLE ||--o{ PRINCIPAL_CAST : "features"
-    TITLE ||--o{ EPISODE : "is series of"
-    TITLE ||--o{ AWARD : "wins/nominated"
-    TITLE ||--o{ TITLE_KEYWORD : "tagged with"
-    TITLE ||--o{ PHOTO : "has"
-
-    PERSON ||--o{ PRINCIPAL_CAST : "appears in"
-    PERSON ||--o{ PERSON_PROFESSION : "has"
-    PERSON ||--o{ AWARD : "wins/nominated"
-    PERSON ||--o{ PERSON_FOLLOW : "followed by"
-    PERSON ||--o{ PHOTO : "has"
-
-    PROFESSION ||--o{ PERSON_PROFESSION : "assigned to"
-    GENRE ||--o{ TITLE_GENRE : "used in"
-    KEYWORD ||--o{ TITLE_KEYWORD : "used in"
-
-    REVIEW ||--o{ REVIEW : "parent of (threaded)"
-
-    CONTENT_TYPE ||--o{ LIKE : "typed for"
-
-    EPISODE }o--|| TITLE : "episode of series"
-    EPISODE }o--|| TITLE : "is itself a title"
+REVIEW ||--o{ REVIEW : "parent of"
 ```
 
 </div>
